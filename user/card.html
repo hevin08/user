@@ -1,0 +1,79 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <br><br>
+    <input type="text" id="fname" placeholder="Enter FirstName">
+    <input type="text" id="lname" placeholder="Enter LastName">
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="submit()">Submit</button>
+    <br><br>
+    <br><br>
+    <br><br> 
+
+    <!-- card container -->
+    <div class="card-container" id="card-container">
+    </div>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let cardContainer = document.getElementById("card-container");
+
+        function submit() {
+            let firstName = document.getElementById("fname").value;
+            let lastName = document.getElementById("lname").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            let user = {
+                firstName,
+                lastName,
+                email,
+                password,
+            };
+
+            users.push(user);
+            localStorage.setItem("users", JSON.stringify(users));
+            console.log(users);
+            location.reload();
+        }
+
+        function loadUser() {
+            users.map((val, index) => {
+                let card = document.createElement("card-container");
+                card.className = "card";
+                card.innerHTML = `
+                    <h3>User ${index + 1}</h3>
+                    <p><strong>First Name:</strong> ${val.firstName}</p>
+                    <p><strong>Last Name:</strong> ${val.lastName}</p>
+                    <p><strong>Email:</strong> ${val.email}</p>
+                    <p><strong>Password:</strong> ${val.password}</p>
+                `;
+                cardContainer.appendChild(card);
+            });
+        }
+
+        loadUser();
+    </script>
+</body>
+
+</html>
